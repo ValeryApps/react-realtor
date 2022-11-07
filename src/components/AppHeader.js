@@ -8,7 +8,7 @@ export const AppHeader = () => {
         return `py-3 text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent ${pathname === path ? "text-black border-b-red-500" : ""}`
     }
     return (
-        <div className='bg-white border-solid shadow-md py-3 sticky top-0'>
+        <div className='bg-white border-solid shadow-md sticky top-0'>
 
             <header className='flex justify-between items-center  max-w-6xl mx-auto'>
                 <div>
