@@ -58,7 +58,7 @@ export const Register = () => {
 
   return (
     <section className="max-w-6xl mx-auto">
-      <h1 className="text-4xl text-center font-bold mt-6 ">Login</h1>
+      <h1 className="text-4xl text-center font-bold mt-6 ">Register</h1>
       <div className="flex flex-wrap justify-center items-center px-6 py-12 space-x-6">
         <div className="md:w-[65%] lg:w-[50%] mb-12 md:mb-5">
           <img className="w-full rounded-2xl" src="images/keys.jpg" alt="" />

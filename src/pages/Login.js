@@ -1,6 +1,8 @@
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { OAuth } from "../components/OAuth";
 
 const formStyle = {
@@ -12,15 +14,27 @@ const formStyle = {
 };
 
 export const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
+    const { email, password } = formData;
     e.preventDefault();
-    console.log(formData);
+    try {
+      const auth = getAuth();
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      if (user) {
+        console.log(user);
+        // localStorage.setItem("user", JSON.stringify({ user }));
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
