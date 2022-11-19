@@ -26,12 +26,8 @@ export const Login = () => {
     e.preventDefault();
     try {
       const auth = getAuth();
-      const { user } = await signInWithEmailAndPassword(auth, email, password);
-      if (user) {
-        console.log(user);
-        // localStorage.setItem("user", JSON.stringify({ user }));
-        navigate("/");
-      }
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/");
     } catch (error) {
       toast.error(error.message);
     }

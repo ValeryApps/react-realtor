@@ -21,7 +21,6 @@ export const OAuth = ({ text }) => {
           createdAt: serverTimestamp(),
         });
       }
-      console.log(docSnap);
       navigate("/");
     } catch (error) {
       console.log(error);
