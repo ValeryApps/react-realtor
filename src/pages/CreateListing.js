@@ -8,9 +8,10 @@ import {
 import { toast } from "react-toastify";
 import { getAuth } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
 
 const initialState = {
   type: "sell",
@@ -133,11 +134,12 @@ export const CreateListing = () => {
         longitude: geolocation.lat,
         latitude: geolocation.lng,
         userRef: auth.currentUser.uid,
+        timestamp: serverTimestamp(),
       });
 
       setLoading(false);
       toast.success("Listing created");
-      navigate("/");
+      navigate(`/category/${type}/${res.id}`);
     } catch (error) {
       toast.error(error.message);
     }
@@ -442,7 +444,14 @@ export const CreateListing = () => {
             type="submit"
             className={`${buttonStyle} bg-blue-900 text-white mt-4`}
           >
-            Submit
+            {!loading ? (
+              <div className="flex justify-center items-center gap-4">
+                <h1>Submitting</h1>
+                <ThreeDots height={40} radius="3" color="#fff" visible={true} />
+              </div>
+            ) : (
+              <h1>Submit</h1>
+            )}
           </button>
         </form>
       </div>

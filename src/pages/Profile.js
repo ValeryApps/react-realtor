@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { db } from "../firebase";
 import { AiOutlineHome } from "react-icons/ai";
-import { list } from "firebase/storage";
 import { ListingCard } from "../components/ListingCard";
 
 const disabled =
@@ -28,10 +27,10 @@ export const Profile = () => {
   const auth = getAuth();
   const { currentUser } = auth;
   const navigate = useNavigate();
-  //   const handleOnchange = (e) => {
-  //     const { name, value } = e.target;
-  //     setFormData({ ...formData, [name]: value });
-  //   };
+  ////   const handleOnchange = (e) => {
+  ////     const { name, value } = e.target;
+  ////     setFormData({ ...formData, [name]: value });
+  ////   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -64,16 +63,18 @@ export const Profile = () => {
     };
     loadData();
   }, [currentUser]);
+
   useEffect(() => {
     const fetchUserListing = async () => {
       let list = [];
       const listingRef = collection(db, "listings");
       const q = query(
         listingRef,
-        where("userRef", "==", currentUser.uid)
-        // orderBy("timestamp", "desc")
+        where("userRef", "==", currentUser.uid),
+        orderBy("timestamp", "desc")
       );
       const { docs } = await getDocs(q);
+
       list = docs.map((doc) => {
         return {
           id: doc.id,
@@ -144,14 +145,16 @@ export const Profile = () => {
           </button>
         </div>
       </section>
-      <div className="max-w-6xl mt-6 mx-auto bg-slate-400">
+      <div className="max-w-6xl mt-6 mx-auto">
         <h1 className="text-4xl text-center">My Listings</h1>
-        {listings.length > 0 &&
-          listings.map((listing) => (
-            <div key={listing.id}>
-              <ListingCard listing={listing.data} />
-            </div>
-          ))}
+        <div className="sm:grid sm:grid-cols-2 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4 mt-6 mb-6 space-x-2 mx-2">
+          {listings.length > 0 &&
+            listings.map((listing) => (
+              <div key={listing.id}>
+                <ListingCard listing={listing.data} id={listing.id} />
+              </div>
+            ))}
+        </div>
       </div>
     </>
   );
